@@ -4,7 +4,15 @@ set_netmask=255.255.255.0
 system_eth=eth0 
 system_ip=3
 gateway_ip=1
-nameserver_ip=192.168.11.1 #full IP
+nameserver_ip=192.168.100.1 #full IP
+
+function check_for_sudo ()
+{
+if [ $UID != 0 ]; then
+		echo "You need root privileges"
+		exit 2
+fi
+}
 
 function configure_network_interfaces ()
 {
@@ -45,3 +53,4 @@ sudo apt-get update
 ./install-NFS.sh
 ./install-BT.sh
 ./install-SQUID.sh
+./install-PXE.sh
