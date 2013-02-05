@@ -41,13 +41,14 @@ sudo service networking restart
 
 function build_PXE_server ()
 {
-.$scriptdir/install-APT-CACHER.sh
+cd $scriptdir
+./install-APT-CACHER.sh
 echo 'Acquire::http { Proxy "http://'$set_subnet'.'$system_ip':3142"; };' | sudo tee /etc/apt/apt.conf
 apt-get update
-.$scriptdir/install-NFS.sh
-.$scriptdir/install-BT.sh
-.$scriptdir/install-SQUID.sh
-.$scriptdir/install-PXE.sh
+./install-NFS.sh
+./install-BT.sh
+./install-SQUID.sh
+./install-PXE.sh
 }
 
 function add_DHCP_server ()
@@ -59,7 +60,7 @@ echo "Only choose to install DHCP on this server if it is going to be authoritat
 read -p "Do you want to install DHCP service on this server (yes/no)? " choice
 echo ""
 if [ '$choice' == 'yes' ]; then
-    .$scriptdir/install-DHCP.sh
+    ./install-DHCP.sh
 elif [ '$choice' == 'no' ]; then
     echo "Don't forget to add 'dhcp-boot=pxelinux.0,pxeserver,$set_subnet.$system_ip' to the DNSMasq options of your router"
 else
@@ -67,6 +68,7 @@ else
     add_DHCP_server
 fi
 }
+
 function install_PXE_scripts ()
 {
 git clone https://github.com/OSgenie/PXE-scripts.git
