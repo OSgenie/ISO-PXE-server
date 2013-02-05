@@ -1,18 +1,26 @@
-#!/bin/bash
-PXE_subnet=192.168.11.0
+#!/usr/bin/env bash
+PXE_subnet=192.168.100.0
 PXE_netmask=255.255.255.0
-PXE_IP_range_start=192.168.11.201
-PXE_IP_range_end=192.168.11.254
+PXE_IP_range_start=192.168.100.201
+PXE_IP_range_end=192.168.100.254
+
+function check_for_sudo ()
+{
+if [ $UID != 0 ]; then
+		echo "You need root privileges"
+		exit 2
+fi
+}
 
 function install_packages ()
 {
-sudo apt-get install -y dhcp3-server
+apt-get install -y dhcp3-server
 }
 
 function configure_dhcp ()
 {
-sudo mv /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.orig
-sudo chmod a-w /etc/dhcp/dhcpd.conf.orig
+mv /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.orig
+chmod a-w /etc/dhcp/dhcpd.conf.orig
 cat > /etc/dhcp/dhcpd.conf << EOM
 # For configuration examples, see /etc/dhcp/dhcpd.conf.orig 
 #  
@@ -37,8 +45,8 @@ log-facility local7;
 "subnet $PXE_subnet netmask $PXE_netmask {"
 "        range $PXE_IP_range_start $PXE_IP_range_end;"
         filename "pxelinux.0";
-}
 EOM
+}
 
 install_packages
 configure_dhcp
