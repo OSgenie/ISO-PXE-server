@@ -11,7 +11,7 @@ Currently with 3 options
 To build the server follow these steps
   1. Hardware Requirements
     1. RAM - 512MB min, 1024MB preferred
-    2. 2 hard drives
+    2. Two hard drives
         1. 4GB+ for root
         2. 1TB+ for /var (use multiple drives for LVM or RAID)
   2. Install Ubuntu 12.04 Server
