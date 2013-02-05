@@ -19,9 +19,7 @@ function create_directories ()
 {
 mkdir -p /mnt/pxeboot
 echo "create kernel directories"
-mkdir -p $tftpboot_root/boot/stock
-mkdir -p $tftpboot_root/boot/live
-mkdir -p $tftpboot_root/boot/install
+mkdir -p $tftpboot_root/boot/
 echo "create PXE menu directories"
 mkdir -p $tftpboot_root/menus/stock
 mkdir -p $tftpboot_root/menus/live
@@ -58,7 +56,7 @@ EOM
 
 function install_PXE_scripts ()
 {
-git clone git@github.com:OSgenie/PXE-scripts.git
+git clone https://github.com/OSgenie/PXE-scripts.git
 ./PXE-scripts/install-PXE-scripts-to-crontab.sh
 }
 
