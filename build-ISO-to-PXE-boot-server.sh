@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-set_subnet=192.168.100
+set_subnet=192.168.11
 set_netmask=255.255.255.0
 system_eth=eth0 
 system_ip=3
 gateway_ip=1
-nameserver_ip=192.168.100.1 #full IP
+nameserver_ip=192.168.11.1 #full IP
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function check_for_sudo ()
