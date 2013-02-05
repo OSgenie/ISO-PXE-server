@@ -4,9 +4,9 @@ ISO-to-PXE-server
 Scripts for building a server which automatically converts liveCD isos to a PXE bootable format.
 
 Currently with 3 options
-  1. Stock - as downloaded
-  2. Live - Boots directly into the live desktop.
-  3. Install - Boots into an OEM install
+  1. Stock - PXEboots iso as downloaded
+  2. Live - PXEboots directly into the live desktop.
+  3. Install - PXEboots an OEM install
 
 To build the server follow these steps
   1. Hardware Requirements
