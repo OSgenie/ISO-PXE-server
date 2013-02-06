@@ -10,16 +10,7 @@ fi
 
 function install_packages ()
 {
-apt-get update
 apt-get install -y apt-cacher-ng
-}
-
-function set_port ()
-{
-iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3142
-iptables -t nat -L PREROUTING
-iptables-save
-iptables -t nat -L PREROUTING
 }
 
 function configure_conf ()
@@ -31,6 +22,5 @@ sed -i 's/.*# BindAddress: localhost 192.168.7.254 publicNameOnMainInterface.*/&
 
 check_for_sudo
 install_packages
-set_port
 configure_conf
 service apt-cacher-ng restart

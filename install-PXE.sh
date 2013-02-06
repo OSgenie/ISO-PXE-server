@@ -12,7 +12,6 @@ fi
 
 function install_packages ()
 {
-apt-get update
 apt-get install -y tftpd-hpa syslinux nfs-kernel-server initramfs-tools
 }
 

@@ -11,7 +11,7 @@ fi
 
 function install_packages ()
 {
-apt-get install -y python-software-properties
+apt-get install -y python-software-properties software-properties-common
 add-apt-repository -y ppa:transmissionbt/ppa
 apt-get update
 apt-get install -y transmission-daemon
