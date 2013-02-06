@@ -17,7 +17,7 @@ fi
 
 function configure_network_interfaces ()
 {
-service networking stop
+ifdown $system_eth
 mv /etc/network/interfaces /etc/network/interfaces.orig
 chmod a-w /etc/network/interfaces.orig
 cat > /etc/network/interfaces << EOM
@@ -36,7 +36,7 @@ iface $system_eth inet static
        dns-nameservers=$nameserver_ip
 EOM
 
-sudo service networking restart
+ifup $system_eth
 }
 
 function build_PXE_server ()
