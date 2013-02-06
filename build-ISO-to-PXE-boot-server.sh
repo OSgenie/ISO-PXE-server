@@ -59,9 +59,9 @@ echo "To configure a DD-WRT router, add 'dhcp-boot=pxelinux.0,pxeserver,$set_sub
 echo "Only choose to install DHCP on this server if it is going to be authoritative"
 read -p "Do you want to install DHCP service on this server (yes/no)? " choice
 echo ""
-if [ '$choice' == 'yes' ]; then
+if [ "$choice" == "yes" ]; then
     ./install-DHCP.sh
-elif [ '$choice' == 'no' ]; then
+elif [ "$choice" == "no" ]; then
     echo "Don't forget to add 'dhcp-boot=pxelinux.0,pxeserver,$set_subnet.$system_ip' to the DNSMasq options of your router"
 else
     echo "Your answer wasn't understood"
@@ -76,8 +76,8 @@ git clone https://github.com/OSgenie/PXE-scripts.git
 }
 
 check_for_sudo
-configure_network_interfaces
-build_PXE_server
-clear
+#configure_network_interfaces
+#build_PXE_server
+#clear
 add_DHCP_server
 install_PXE_scripts
