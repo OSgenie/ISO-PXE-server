@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 source build.config
 
 function check_for_sudo ()

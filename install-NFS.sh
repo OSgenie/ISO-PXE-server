@@ -1,6 +1,5 @@
-#!/bin/bash
-
-IP_subnet=192.168.0.0/16
+#!/usr/bin/env bash
+source build.config
 
 function check_for_sudo ()
 {

@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-set_subnet=192.168.11
-set_netmask=255.255.255.0
-system_eth=eth0 
-system_ip=3
-gateway_ip=1
-nameserver_ip=192.168.11.1 #full IP
+source build.config
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function check_for_sudo ()
@@ -26,14 +21,14 @@ auto lo
 iface lo inet loopback
 
 # System network interface on $system_eth
-auto $system_eth
-iface $system_eth inet static
-       address $set_subnet.$system_ip
-       network $set_subnet.0
-       netmask $set_netmask
-       broadcast $set_subnet.255
-       gateway $set_subnet.$gateway_ip
-       dns-nameservers $nameserver_ip
+auto $primary_eth
+iface $primary_eth inet static
+       address $primary_eth_ip
+       network $primary_eth_subnet
+       netmask $primary_eth_netmask
+       broadcast $primary_eth_broadcast
+       gateway $primary_eth_gateway
+       dns-nameservers $nameserver_1 $nameserver_2
 EOM
 
 ifup $system_eth
@@ -43,7 +38,7 @@ function build_PXE_server ()
 {
 cd $scriptdir
 ./install-APT-CACHER.sh
-echo 'Acquire::http { Proxy "http://'$set_subnet'.'$system_ip':3142"; };' | sudo tee /etc/apt/apt.conf
+echo 'Acquire::http { Proxy "http://$primary_eth_ip:3142"; };' | sudo tee /etc/apt/apt.conf
 apt-get update
 ./install-NFS.sh
 ./install-BT.sh

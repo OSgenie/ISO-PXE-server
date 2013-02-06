@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+source build.config
 tftpboot_root="/var/lib/tftpboot"
 
 function check_for_sudo ()

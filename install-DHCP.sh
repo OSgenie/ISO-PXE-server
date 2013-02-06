@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
-PXE_subnet=192.168.100.0
-PXE_netmask=255.255.255.0
-PXE_IP_range_start=192.168.100.201
-PXE_IP_range_end=192.168.100.254
-set_domain=example.com
-DNS_server1=192.168.100.1
-DNS_server2=8.8.4.4
+source build.config
 
 function check_for_sudo ()
 {
