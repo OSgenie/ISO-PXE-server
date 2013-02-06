@@ -2,6 +2,14 @@
 # Kirtley Wienbroer
 # kirtley@osgenie.com
 
+function check_for_sudo ()
+{
+if [ $UID != 0 ]; then
+		echo "You need root privileges"
+		exit 2
+fi
+}
+
 function install_packages ()
 {
 sudo apt-get update
@@ -23,6 +31,7 @@ sudo sed -i 's/# PidFile: \/var\/run\/apt-cacher-ng\/pid/PidFile: \/var\/run\/ap
 sudo sed -i 's/.*# BindAddress: localhost 192.168.7.254 publicNameOnMainInterface.*/&\nBindAddress: 0.0.0.0/' /etc/apt-cacher-ng/acng.conf
 }
 
+check_for_sudo
 install_packages
 set_port
 configure_conf

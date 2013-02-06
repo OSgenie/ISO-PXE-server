@@ -52,6 +52,7 @@ subnet $PXE_subnet netmask $PXE_netmask {
 EOM
 }
 
+check_for_sudo
 install_packages
 configure_dhcp
 service isc-dhcp-server restart
