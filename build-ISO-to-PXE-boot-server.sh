@@ -38,7 +38,8 @@ function build_PXE_server ()
 {
 cd $scriptdir
 ./install-APT-CACHER.sh
-echo 'Acquire::http { Proxy "http:'$primary_eth_ip':3142"; };' | tee /etc/apt/apt.conf
+#echo 'Acquire::http { Proxy "http:'$primary_eth_ip':3142"; };' | tee /etc/apt/apt.conf
+echo 'Acquire::http { Proxy "http:'192.168.11.10':3142"; };' | tee /etc/apt/apt.conf
 apt-get update
 apt-get upgrade -y
 ./install-NFS.sh
