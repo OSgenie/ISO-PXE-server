@@ -33,7 +33,7 @@ iface $system_eth inet static
        netmask $set_netmask
        broadcast $set_subnet.255
        gateway $set_subnet.$gateway_ip
-       dns-nameservers=$nameserver_ip
+       dns-nameservers $nameserver_ip
 EOM
 
 ifup $system_eth
@@ -77,7 +77,7 @@ git clone https://github.com/OSgenie/PXE-scripts.git
 
 check_for_sudo
 configure_network_interfaces
-#build_PXE_server
-#clear
-#add_DHCP_server
-#install_PXE_scripts
+build_PXE_server
+clear
+add_DHCP_server
+install_PXE_scripts
