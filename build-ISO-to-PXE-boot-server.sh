@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 source build.config
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo $primary_eth
+echo $primary_eth_ip
+
 function check_for_sudo ()
 {
 if [ $UID != 0 ]; then
@@ -38,7 +39,7 @@ function build_PXE_server ()
 {
 cd $scriptdir
 ./install-APT-CACHER.sh
-echo 'Acquire::http { Proxy "http://$primary_eth_ip:3142"; };' | sudo tee /etc/apt/apt.conf
+echo "Acquire::http { Proxy http://"$primary_eth_ip":3142; };" | tee /etc/apt/apt.conf
 apt-get update
 ./install-NFS.sh
 ./install-BT.sh
