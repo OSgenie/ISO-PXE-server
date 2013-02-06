@@ -24,6 +24,7 @@ echo "create PXE menu directories"
 mkdir -p $tftpboot_root/menus/stock
 mkdir -p $tftpboot_root/menus/live
 mkdir -p $tftpboot_root/menus/install
+mkdir -p $tftpboot_root/menus/server
 }
 
 function configure_tftpd ()
