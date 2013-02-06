@@ -12,7 +12,7 @@ fi
 
 function configure_network_interfaces ()
 {
-ifdown $system_eth
+ifdown $primary_eth
 mv /etc/network/interfaces /etc/network/interfaces.orig
 chmod a-w /etc/network/interfaces.orig
 cat > /etc/network/interfaces << EOM
@@ -31,7 +31,7 @@ iface $primary_eth inet static
        dns-nameservers $nameserver_1 $nameserver_2
 EOM
 wait 5
-ifup $system_eth
+ifup $primary_eth
 }
 
 function build_PXE_server ()
