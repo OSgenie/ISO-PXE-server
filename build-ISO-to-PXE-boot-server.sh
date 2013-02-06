@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 source build.config
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+echo $primary_eth
 function check_for_sudo ()
 {
 if [ $UID != 0 ]; then
@@ -71,8 +71,8 @@ git clone https://github.com/OSgenie/PXE-scripts.git
 }
 
 check_for_sudo
-#configure_network_interfaces
-#build_PXE_server
-#clear
+configure_network_interfaces
+build_PXE_server
+clear
 add_DHCP_server
 install_PXE_scripts
