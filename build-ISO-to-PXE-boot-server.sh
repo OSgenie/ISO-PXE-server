@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 source build.config
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo $primary_eth_ip
 
 function check_for_sudo ()
 {
@@ -31,7 +30,7 @@ iface $primary_eth inet static
        gateway $primary_eth_gateway
        dns-nameservers $nameserver_1 $nameserver_2
 EOM
-
+wait 5
 ifup $system_eth
 }
 
