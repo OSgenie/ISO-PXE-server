@@ -42,9 +42,10 @@ max-lease-time 7200;
 log-facility local7;
 
 #subnet declaration
-"subnet $PXE_subnet netmask $PXE_netmask {"
-"        range $PXE_IP_range_start $PXE_IP_range_end;"
+subnet $PXE_subnet netmask $PXE_netmask {
+        range $PXE_IP_range_start $PXE_IP_range_end;
         filename "pxelinux.0";
+}
 EOM
 }
 
