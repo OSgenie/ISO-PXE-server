@@ -36,7 +36,7 @@ echo "/var/nfs              $IP_subnet(rw,fsid=0,insecure,no_subtree_check,async
 echo "/var/nfs/updatediso   $IP_subnet(rw,nohide,insecure,no_subtree_check,async)" | tee -a /etc/exports
 echo "/var/nfs/pxeboot      $IP_subnet(ro,no_root_squash,insecure,no_subtree_check,async)" | tee -a /etc/exports
 echo "/var/nfs/transmission/complete      $IP_subnet(ro,no_root_squash,insecure,no_subtree_check,async)" | tee -a /etc/exports
-nfs-kernel-server restart
+service nfs-kernel-server restart
 }
 
 function configure_apache_root ()
