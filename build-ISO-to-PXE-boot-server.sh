@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-source build.config
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $scriptdir/build.config
 
 function check_for_sudo ()
 {
@@ -20,7 +20,7 @@ cat > /etc/network/interfaces << EOM
 auto lo
 iface lo inet loopback
 
-# System network interface on $system_eth
+# System network interface on $primary_eth
 auto $primary_eth
 iface $primary_eth inet static
        address $primary_eth_ip
