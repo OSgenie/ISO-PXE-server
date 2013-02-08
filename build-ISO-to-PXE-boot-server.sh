@@ -48,19 +48,16 @@ apt-get upgrade -y
 
 function add_DHCP_server ()
 {
-echo "PXE booting requires a DHCP configured to deliver the pxelinux.0 file to booting clients"
-echo "You can either install a DHCP services on this server or configure an existing DHCP server for PXE booting"
-echo "To configure a DD-WRT router, add 'dhcp-boot=pxelinux.0,pxeserver,$set_subnet.$system_ip' to the DNSMasq options"
-echo "Only choose to install DHCP on this server if it is going to be authoritative"
-read -p "Do you want to install DHCP service on this server (yes/no)? " choice
-echo ""
-if [ "$choice" == "yes" ]; then
+if [ "$install_dhcp" == "yes" ]; then
     ./install-DHCP.sh
-elif [ "$choice" == "no" ]; then
-    echo "Don't forget to add 'dhcp-boot=pxelinux.0,pxeserver,$set_subnet.$system_ip' to the DNSMasq options of your router"
-else
-    echo "Your answer wasn't understood"
-    add_DHCP_server
+elif [ "$install_dhcp" == "no" ]; then
+    clear
+    echo "*************************************************************************************************"
+    echo "*** IMPORTANT NOTIFICATION "
+    echo "DHCP services are not being installed on this server!"
+    echo "You must add the following to the DNSMasq options of your router"
+    echo "  dhcp-boot=pxelinux.0,pxeserver,$set_subnet.$system_ip"
+    echo "*************************************************************************************************"
 fi
 }
 
@@ -73,6 +70,5 @@ git clone https://github.com/OSgenie/PXE-scripts.git
 check_for_sudo
 configure_network_interfaces
 build_PXE_server
-clear
 add_DHCP_server
 install_PXE_scripts

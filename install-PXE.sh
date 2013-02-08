@@ -46,12 +46,8 @@ function set_pxelinux_default ()
 mkdir $tftpboot_root/pxelinux.cfg
 cat > $tftpboot_root/pxelinux.cfg/default << EOM
 # D-I config version 2.0
-include mainmenu.conf
 default vesamenu.c32
-TIMEOUT 600
-ONTIMEOUT localboot
-prompt 0
-timeout 0
+include mainmenu.conf
 EOM
 }
 
