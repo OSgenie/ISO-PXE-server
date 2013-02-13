@@ -16,7 +16,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">ISO to PXE server</h1>
+        <h1 class="header">OSgenie ISO to PXE server</h1>
         <p class="header">Scripts for building a PXE server that automatically makes Linux LiveCD ISOs PXE bootable</p>
 
         <ul>
@@ -30,17 +30,24 @@
 
       </header>
       <section>
-        <h1>ISO-to-PXE-server</h1>
+        <h1>OSgenie ISO to PXE server</h1>
+<p>Scripts for building a server which automatically makes liveCD isos available via a PXE boot menu.</p>
 
-<p>Scripts for building a server which automatically converts liveCD isos to a PXE bootable format.</p>
+<h2>Designed to be used in conjunction with the OSgenie ISO Updating Server</h2>
 
-<p>Currently with 3 options</p>
+<p><a href="https://github.com/OSgenie/ISO-update-server">https://github.com/OSgenie/ISO-update-server</a></p>
+
+<h2>Variables are all contained in .config files for easy modification</h2>
+
+<p>Currently with the following options</p>
 
 <ol>
-<li>Stock - PXEboots iso as downloaded</li>
-<li>Live - PXEboots directly into the live desktop.</li>
-<li>Install - PXEboots an OEM install</li>
-</ol><p>To build the server follow these steps</p>
+    <li>Stock - PXEboots iso as downloaded</li>
+    <li>Live - PXEboots directly into the live desktop.</li>
+    <li>Install - PXEboots an OEM install</li>
+    <li>Server and Alternate - Traditional PXE boot option with an auto build seed (user:ubuntu pass:ubuntu)</li>
+</ol>
+<h2>To build the server follow these steps</h2>
 
 <ol>
 <li>Hardware Requirements
@@ -66,9 +73,9 @@
 
 <ol>
 <li>sudo apt-get install git-core</li>
-<li>git clone <a href="https://github.com/OSgenie/ISO-to-PXE-server.git">https://github.com/OSgenie/ISO-to-PXE-server.git</a>
-</li>
-<li>sudo ./ISO-to-PXE-server/build-ISO-to-PXE-boot-server.sh</li>
+<li>git clone <a href="https://github.com/OSgenie/ISO-PXE-server.git">https://github.com/OSgenie/ISO-PXE-server.git</a></li>
+<li>cd ISO-PXE-server</li>
+<li>sudo ./build-ISO-to-PXE-boot-server.sh</li>
 </ol>
 </li>
 </ol>
