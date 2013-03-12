@@ -26,4 +26,8 @@ https://github.com/OSgenie/ISO-update-server
     1. sudo apt-get install git-core
     2. git clone https://github.com/OSgenie/ISO-PXE-server.git
     3. cd ISO-PXE-server
-    4. sudo ./build-ISO-to-PXE-boot-server.sh
+    4. edit build.config settings as needed
+    5. sudo ./build-ISO-to-PXE-boot-server.sh
+  4. After the server is built you will need to generate the update lists based on version and architecture
+    1. Goto http://<SERVER_IP>:9091/transmission/web/ to verify that all isos have finished downloading
+    2. ssh -t <SERVER_IP> sudo generate-update-lists
