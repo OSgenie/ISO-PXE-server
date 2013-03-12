@@ -50,6 +50,7 @@
 <h2>Variables are all contained in .config files for easy modification</h2>
 <ol>
     <li>Currently configured with a 192.168.11.0 subnet</li>
+    <li>Default server IP is 192.168.11.30</li>
     <li>All variables for the server and services are in build.config</li>
 </ol>
 
@@ -76,12 +77,18 @@
 </ol>
 </li>
 <li>Install Git and Run Build Scripts
-
 <ol>
 <li>sudo apt-get install git-core</li>
 <li>git clone <a href="https://github.com/OSgenie/ISO-PXE-server.git">https://github.com/OSgenie/ISO-PXE-server.git</a></li>
 <li>cd ISO-PXE-server</li>
+<li>edit settings in build.config as needed</li>
 <li>sudo ./build-ISO-to-PXE-boot-server.sh</li>
+</ol>
+</li>
+<li>After the server is built you will need to generate the update lists based on version and architecture
+<ol>
+<li>Goto http://192.168.11.30:9091/transmission/web/ to verify that all isos have finished downloading. Default user:pass is transmission:proceed</li>
+<li>ssh -t sudo 192.168.11.30 generate-update-lists</li>
 </ol>
 </li>
 </ol>
