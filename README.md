@@ -12,8 +12,9 @@ https://github.com/OSgenie/ISO-update-server
   4. Server and Alternate - Traditional PXE boot option with an auto build seed (user:ubuntu pass:ubuntu)
   
 ## Variables are all contained in .config files for easy modification
-  1. Currently configured with a 192.168.11.0 subnet 
-  2. All variables for the server and services are in build.config
+  1. Currently configured with a 192.168.11.0 subnet
+  2. Default server IP is 192.168.11.30
+  3. All variables for the server and services are in build.config
   
 ## To build the server follow these steps
   1. Hardware Requirements
@@ -26,8 +27,8 @@ https://github.com/OSgenie/ISO-update-server
     1. sudo apt-get install git-core
     2. git clone https://github.com/OSgenie/ISO-PXE-server.git
     3. cd ISO-PXE-server
-    4. edit build.config settings as needed
+    4. edit settings in build.config as needed
     5. sudo ./build-ISO-to-PXE-boot-server.sh
   4. After the server is built you will need to generate the update lists based on version and architecture
-    1. Goto http://<SERVER_IP>:9091/transmission/web/ to verify that all isos have finished downloading
-    2. ssh -t <SERVER_IP> sudo generate-update-lists
+    1. Goto http://192.168.11.30:9091/transmission/web/ to verify that all isos have finished downloading. Default user:pass is transmission:proceed
+    2. ssh -t 192.168.11.30 sudo generate-update-lists
