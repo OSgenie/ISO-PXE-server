@@ -67,8 +67,16 @@ git clone https://github.com/OSgenie/PXE-scripts.git
 ./PXE-scripts/install-PXE-scripts-to-crontab.sh
 }
 
+function load_initial_iso_torrents ()
+{
+cd /var/nfs/transmission
+git clone https://github.com/OSgenie/torrents.git
+chmod -R 777 /var/nfs/transmission/torrents
+}
+
 check_for_sudo
 configure_network_interfaces
 build_PXE_server
 add_DHCP_server
 install_PXE_scripts
+load_initial_iso_torrents
