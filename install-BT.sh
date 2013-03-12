@@ -21,7 +21,7 @@ function create_directories ()
 {
 mkdir -p /var/nfs/transmission/torrents
 mkdir -p /var/nfs/transmission/incomplete
-mkdir -p /var/nfs/transmission/complete
+mkdir -p /var/nfs/transmission/complete/updatelists
 chown debian-transmission:debian-transmission -R /var/nfs/transmission
 }
 
