@@ -28,19 +28,19 @@ cat > /etc/dhcp/dhcpd.conf << EOM
 ddns-update-style none;
 
 # option definitions common to all supported networks...
-option domain-name "$set_domain";
-option domain-name-servers $DNS_server1, ns2.example.org;
-
 default-lease-time 600;
 max-lease-time 7200;
+option domain-name "$set_domain";
+option domain-name-servers $DHCP_nameserver1, $DHCP_nameserver2;
+option routers $DHCP_gateway;
 
 # Use this to send dhcp log messages to a different log file (you also
 # have to hack syslog.conf to complete the redirection).
 log-facility local7;
 
 #subnet declaration
-subnet $PXE_subnet netmask $PXE_netmask {
-        range $PXE_IP_range_start $PXE_IP_range_end;
+subnet $DHCP_subnet netmask $DHCP_netmask {
+        range $DHCP_IP_range_start $DHCP_IP_range_end;
         filename "pxelinux.0";
 }
 EOM
