@@ -30,5 +30,5 @@ https://github.com/OSgenie/ISO-update-server
     4. edit settings in build.config as needed
     5. sudo ./build-ISO-to-PXE-boot-server.sh
   4. After the server is built you will need to generate the update lists based on version and architecture
-    1. Goto http://192.168.11.30:9091/transmission/web/ to verify that all isos have finished downloading. Default user:pass is transmission:proceed
-    2. ssh -t 192.168.11.30 sudo generate-update-lists
+    1. Goto http://192.168.11.18:9091/transmission/web/ to verify that all isos have finished downloading. Default user:pass is transmission:proceed
+    2. ssh -t 192.168.11.18 sudo generate-update-lists

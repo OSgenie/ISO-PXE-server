@@ -72,11 +72,17 @@ function load_initial_iso_torrents ()
 cd /var/nfs/transmission
 git clone https://github.com/OSgenie/torrents.git
 chmod -R 777 /var/nfs/transmission/torrents
+/etc/init.d/transmission-daemon restart
+}
+
+function download_initial_iso ()
+{
+	mkdir -p /var/nfs/iso
 }
 
 check_for_sudo
 
-echo "Configure Newtork Interface? (yes/no)"
+echo "Configure Network Interface? (yes/no)"
 read configure_network
 if [ "$configure_network" == "yes" ]; then
     configure_network_interfaces
@@ -94,3 +100,4 @@ build_PXE_server
 add_DHCP_server
 install_PXE_scripts
 load_initial_iso_torrents
+download_initial_iso

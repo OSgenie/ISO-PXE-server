@@ -24,7 +24,7 @@ if [ "$IP_subnet" == "10.0.0.0/8" ]; then
 sed -i 's/#acl localnet src 10.0.0.8\/acl localnet src 10.0.0.0\/8/g'/etc/squid3/squid.conf
 elif [ "$IP_subnet" == "172.16.0.0/12" ]; then
 sed -i 's/#acl localnet src 172.16.0.0\/12/acl localnet src 172.16.0.0\/12/g' /etc/squid3/squid.conf
-elif [ "IP_subnet" == "192.168.0.0/16" ]; then
+elif [ "$IP_subnet" == "192.168.0.0/16" ]; then
 sed -i 's/#acl localnet src 192.168.0.0\/16/acl localnet src 192.168.0.0\/16/g' /etc/squid3/squid.conf
 fi
 # enable cache for 50GB
