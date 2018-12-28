@@ -37,7 +37,7 @@ function build_PXE_server ()
 {
 cd $scriptdir
 ./install-APT-CACHER.sh
-echo 'Acquire::http { Proxy "http:'$primary_eth_ip':3142"; };' | tee /etc/apt/apt.conf
+echo 'Acquire::http { Proxy "http:'$primary_eth_ip':3142"; };' | tee /etc/apt/apt.conf.d/01proxy
 apt-get update
 apt-get upgrade -y
 ./install-NFS.sh
@@ -56,7 +56,7 @@ elif [ "$install_dhcp" == "no" ]; then
     echo "*** IMPORTANT NOTIFICATION "
     echo "DHCP services are not being installed on this server!"
     echo "You must add the following to the DNSMasq options of your router"
-    echo "  dhcp-boot=pxelinux.0,pxeserver,$set_subnet.$system_ip"
+    echo "  dhcp-boot=pxelinux.0,pxeserver,$primary_eth_ip"
     echo "*************************************************************************************************"
 fi
 }
@@ -75,7 +75,21 @@ chmod -R 777 /var/nfs/transmission/torrents
 }
 
 check_for_sudo
-configure_network_interfaces
+
+echo "Configure Newtork Interface? (yes/no)"
+read configure_network
+if [ "$configure_network" == "yes" ]; then
+    configure_network_interfaces
+elif [ "$configure_network" == "no" ]; then
+    clear
+    echo "*************************************************************************************************"
+    echo "*** IMPORTANT NOTIFICATION "
+    echo "*** /etc/network/interfaces is not being configured, it will remain"
+		echo "*************************************************************************************************"
+cat /etc/network/interfaces
+    echo "*************************************************************************************************"
+fi
+
 build_PXE_server
 add_DHCP_server
 install_PXE_scripts

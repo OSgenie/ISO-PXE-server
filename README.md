@@ -10,12 +10,12 @@ https://github.com/OSgenie/ISO-update-server
   2. Live - PXEboots directly into the live desktop.
   3. Install - PXEboots an OEM install
   4. Server and Alternate - Traditional PXE boot option with an auto build seed (user:ubuntu pass:ubuntu)
-  
+
 ## Variables are all contained in .config files for easy modification
   1. Currently configured with a 192.168.11.0 subnet
-  2. Default server IP is 192.168.11.30
+  2. Default server IP is 192.168.11.18
   3. All variables for the server and services are in build.config
-  
+
 ## To build the server follow these steps
   1. Hardware Requirements
     1. RAM - 512MB min, 1024MB preferred
