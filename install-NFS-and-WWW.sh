@@ -26,8 +26,6 @@ function create_directories ()
 	mkdir -p /var/nfs/pxeboot/live/
 	mkdir -p /var/nfs/pxeboot/install/
 	mkdir -p /var/nfs/pxeboot/preseed/
-	# Create transmission folder so export doesn't  fail.
-	mkdir -p /var/nfs/transmission/complete
 }
 
 function configure_exports_file ()
@@ -42,8 +40,9 @@ function configure_exports_file ()
 function configure_apache_root ()
 {
 	service apache2 stop
-	sed -i 's/DocumentRoot \/var\/www/DocumentRoot \/var\/nfs\/pxeboot/g' /etc/apache2/sites-available/default
-	sed -i 's/<Directory \/var\/www\/>/<Directory \/var\/nfs\/pxeboot\/>/g' /etc/apache2/sites-available/default
+	sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/nfs\/pxeboot/g' /etc/apache2/sites-available/000-default.conf
+	sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/nfs\/pxeboot/g' /etc/apache2/sites-enabled/000-default.conf
+	sed -i 's/<Directory \/var\/www\/>/<Directory \/var\/nfs\/pxeboot\/>/g' /etc/apache2/apache2.conf
 	service apache2 start
 }
 

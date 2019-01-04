@@ -12,7 +12,7 @@ function check_for_sudo ()
 
 function install_packages ()
 {
-	apt-get install -y tftpd-hpa syslinux nfs-kernel-server initramfs-tools
+	apt-get install -y tftpd-hpa syslinux initramfs-tools
 }
 
 function create_directories ()
@@ -24,6 +24,8 @@ function create_directories ()
 	mkdir -p $tftpboot_root/menus/live
 	mkdir -p $tftpboot_root/menus/install
 	mkdir -p $tftpboot_root/menus/server
+	mkdir -p $tftpboot_root/menus/netboot
+
 }
 
 function configure_tftpd ()
@@ -50,16 +52,9 @@ function set_pxelinux_default ()
 EOM
 }
 
-function install_PXE_scripts ()
-{
-	git clone https://github.com/OSgenie/PXE-scripts.git
-	./PXE-scripts/install-PXE-scripts-to-crontab.sh
-}
-
 check_for_sudo
 install_packages
 create_directories
 configure_tftpd
 copy_pxelinux
 set_pxelinux_default
-install_PXE_scripts

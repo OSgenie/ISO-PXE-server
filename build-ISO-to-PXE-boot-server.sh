@@ -56,13 +56,13 @@ function network_configuration_decision ()
 }
 
 function build_PXE_server ()
-{ 
+{
 	./$scriptdir/install-APT-CACHER.sh
 	echo 'Acquire::http { Proxy "http:'$primary_eth_ip':3142"; };' | tee /etc/apt/apt.conf.d/01proxy
 	apt-get update
 	apt-get upgrade -y
-	./install-NFS.sh
 	./install-BT.sh
+	./install-NFS-and-WWW.sh
 	./install-SQUID.sh
 	./install-PXE.sh
 }
@@ -97,18 +97,16 @@ function DHCP_server_installation_decision ()
 	add_DHCP_server
 }
 
-function install_PXE_scripts ()
+function install_scripts ()
 {
-git clone https://github.com/OSgenie/PXE-scripts.git
-./PXE-scripts/install-PXE-scripts-to-crontab.sh
+	git clone https://github.com/OSgenie/PXE-scripts.git
+	./PXE-scripts/install.sh
 }
 
 function load_initial_iso_torrents ()
 {
-cd /var/nfs/transmission
-git clone https://github.com/OSgenie/torrents.git
-chmod -R 777 /var/nfs/transmission/torrents
-/etc/init.d/transmission-daemon restart
+	get-torrents
+	/etc/init.d/transmission-daemon restart
 }
 
 function download_initial_iso ()
@@ -116,11 +114,10 @@ function download_initial_iso ()
 	mkdir -p /var/nfs/iso
 }
 
-
 check_for_sudo
 network_configuration_decision
 build_PXE_server
 DHCP_server_installation_decision
-install_PXE_scripts
+install_scripts
 load_initial_iso_torrents
 download_initial_iso
