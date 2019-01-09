@@ -1,4 +1,4 @@
-OSgenie ISO PXE server
+OSgenie ISO PXE server ver 2.0
 ======================
 
 Scripts for building a server which automatically converts liveCD isos to a PXE bootable format.
@@ -14,7 +14,7 @@ https://github.com/OSgenie/ISO-update-server
 ## Variables are all contained in .config files for easy modification
   1. Currently configured with a 192.168.11.0 subnet
   2. Default server IP is 192.168.11.18
-  3. All variables for the server and services are in build.config
+  3. All variables for the server and services are in server.config
 
 ## To build the server follow these steps
   1. Hardware Requirements
@@ -27,7 +27,7 @@ https://github.com/OSgenie/ISO-update-server
     1. sudo apt-get install git-core
     2. git clone https://github.com/OSgenie/ISO-PXE-server.git
     3. cd ISO-PXE-server
-    4. edit settings in build.config as needed
+    4. edit settings in server.config as needed
     5. sudo ./build-ISO-to-PXE-boot-server.sh
   4. After the server is built you will need to generate the update lists based on version and architecture
     1. Goto http://192.168.11.18:9091/transmission/web/ to verify that all isos have finished downloading. Default user:pass is transmission:proceed

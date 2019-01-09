@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source build.config
+source server.config
 
 function check_for_sudo ()
 {

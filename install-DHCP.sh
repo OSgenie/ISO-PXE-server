@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source build.config
+source server.config
 
 function check_for_sudo ()
 {
@@ -30,7 +30,7 @@ function configure_dhcp ()
 	# option definitions common to all supported networks...
 	default-lease-time 600;
 	max-lease-time 7200;
-	option domain-name "$set_domain";
+	option domain-name "$DHCP_domain";
 	option domain-name-servers $DHCP_nameserver1, $DHCP_nameserver2;
 	option routers $DHCP_gateway;
 
