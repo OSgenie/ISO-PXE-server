@@ -38,8 +38,8 @@ function configure_tftpd ()
 function copy_pxelinux ()
 {
 	cd $tftpboot_root
-	wget http://us.archive.ubuntu.com/ubuntu/dists/precise/main/installer-i386/current/images/netboot/ubuntu-installer/i386/boot-screens/vesamenu.c32
-	wget http://us.archive.ubuntu.com/ubuntu/dists/precise/main/installer-i386/current/images/netboot/ubuntu-installer/i386/pxelinux.0
+	wget http://us.archive.ubuntu.com/ubuntu/dists/bionic/main/installer-i386/current/images/netboot/ubuntu-installer/i386/boot-screens/vesamenu.c32
+	wget http://us.archive.ubuntu.com/ubuntu/dists/bionic/main/installer-i386/current/images/netboot/ubuntu-installer/i386/pxelinux.0
 }
 
 function set_pxelinux_default ()
