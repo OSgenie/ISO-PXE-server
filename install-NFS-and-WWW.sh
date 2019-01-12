@@ -4,14 +4,6 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $script_dir/common.functions
 source $script_dir/nfs_squid.config
 
-function check_for_sudo ()
-{
-	if [ $UID != 0 ]; then
-			echo "You need root privileges"
-			exit 2
-	fi
-}
-
 function create_directories ()
 {
 # Create updater nfs folders

@@ -3,14 +3,6 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $script_dir/common.functions
 source $script_dir/dhcp.config
 
-function check_for_sudo ()
-{
-	if [ $UID != 0 ]; then
-			echo "You need root privileges"
-			exit 2
-	fi
-}
-
 function install_packages ()
 {
 	apt-get install -y dhcp3-server
