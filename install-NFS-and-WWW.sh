@@ -48,9 +48,9 @@ function configure_nfs_exports ()
 function configure_apache2 ()
 {
 	service apache2 stop
-	sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/pxeboot/g' /etc/apache2/sites-available/000-default.conf
-	sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/pxeboot/g' /etc/apache2/sites-enabled/000-default.conf
-	sed -i 's/<Directory \/var\/www\/>/<Directory \/var\/pxeboot\/>/g' /etc/apache2/apache2.conf
+	sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot ${apache_root_dir//\//\\\/}/g" /etc/apache2/sites-available/000-default.conf
+	sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot ${apache_root_dir//\//\\\/}/g" /etc/apache2/sites-enabled/000-default.conf
+	sed -i "s/<Directory \/var\/www\/>/<Directory ${apache_root_dir//\//\\\/}>/g" /etc/apache2/apache2.conf
 	service apache2 start
 }
 
