@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
-source server.config
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
+source $script_dir/nfs_squid.config
 
-function check_for_sudo ()
+function install_squid3 ()
 {
-	if [ $UID != 0 ]; then
-			echo "You need root privileges"
-			exit 2
-	fi
-}
-
-function install_packages ()
-{
-	apt-get install -y squid
+	apt-get install -y squid3
 }
 
 function configure_squid3 ()
@@ -35,5 +29,5 @@ function configure_squid3 ()
 }
 
 check_for_sudo
-install_packages
+install_squid3
 configure_squid3

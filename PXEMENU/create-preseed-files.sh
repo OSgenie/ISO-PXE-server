@@ -1,5 +1,6 @@
 #!/bin/bash
 source pxe.config
+source admin.config
 http_preseed_root=/var/nfs/pxeboot/preseed
 source preseed.configs/network.config
 source preseed.configs/domain.config
@@ -88,9 +89,9 @@ EOF
   # User Account
   d-i	passwd/root-login	boolean false
   d-i	passwd/make-user	boolean true
-  d-i	passwd/user-fullname	string ubuntu
-  d-i	passwd/username	string ubuntu
-  d-i	passwd/user-password-crypted	password \$6\$.1eHH0iY\$ArGzKX2YeQ3G6U.mlOO3A.NaL22Ewgz8Fi4qqz.Ns7EMKjEJRIW2Pm/TikDptZpuu7I92frytmk5YeL.9fRY4.
+  d-i	passwd/user-fullname	string $sys_admin_full_name
+  d-i	passwd/username string $sys_admin_user_name
+  d-i	passwd/user-password-crypted	password $(echo ${sys_admin_pass_word} | mkpasswd -s -m sha-512)
   d-i	passwd/user-uid	string
   d-i	user-setup/allow-password-weak	boolean false
   d-i	user-setup/encrypt-home	boolean false
@@ -119,6 +120,6 @@ EOF
   d-i	debian-installer/exit/halt	boolean false
   d-i	debian-installer/exit/poweroff	boolean false
   # Post System Installation Tasks
-  d-i	pkgsel/include string byobu vim openssh-server git-core landscape-common
+  d-i	pkgsel/include string byobu vim openssh-server git-core landscape-common nfs-common
   byobu	byobu/launch-by-default boolean true
 EOF

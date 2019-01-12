@@ -1,19 +1,7 @@
 #!/usr/bin/env bash
-source server.config
-tftpboot_root="/var/lib/tftpboot"
-
-function check_for_sudo ()
-{
-	if [ $UID != 0 ]; then
-			echo "You need root privileges"
-			exit 2
-	fi
-}
-
-function install_packages ()
-{
-	apt-get install -y tftpd-hpa syslinux initramfs-tools
-}
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
+source $script_dir/application.config
 
 function create_directories ()
 {
@@ -25,7 +13,16 @@ function create_directories ()
 	mkdir -p $tftpboot_root/menus/install
 	mkdir -p $tftpboot_root/menus/server
 	mkdir -p $tftpboot_root/menus/netboot
+}
 
+function install_pxe_boot_environment ()
+{
+	apt-get install -y tftpd-hpa syslinux initramfs-tools
+}
+
+function install_preseed_script_dependencies ()
+{
+	apt-get install -y whois
 }
 
 function configure_tftpd ()
@@ -35,11 +32,11 @@ function configure_tftpd ()
 	/etc/init.d/tftpd-hpa restart
 }
 
-function copy_pxelinux ()
+function copy_pxelinux_to_tftpboot_root ()
 {
 	cd $tftpboot_root
-	wget http://us.archive.ubuntu.com/ubuntu/dists/bionic/main/installer-i386/current/images/netboot/ubuntu-installer/i386/boot-screens/vesamenu.c32
-	wget http://us.archive.ubuntu.com/ubuntu/dists/bionic/main/installer-i386/current/images/netboot/ubuntu-installer/i386/pxelinux.0
+	wget http://us.archive.ubuntu.com/ubuntu/dists/xenial/main/installer-i386/current/images/netboot/ubuntu-installer/i386/boot-screens/vesamenu.c32
+	wget http://us.archive.ubuntu.com/ubuntu/dists/xenial/main/installer-i386/current/images/netboot/ubuntu-installer/i386/pxelinux.0
 }
 
 function set_pxelinux_default ()
@@ -53,8 +50,9 @@ EOM
 }
 
 check_for_sudo
-install_packages
 create_directories
+install_pxe_boot_environment
+install_preseed_script_dependencies
 configure_tftpd
-copy_pxelinux
+copy_pxelinux_to_tftpboot_root
 set_pxelinux_default

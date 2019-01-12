@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-source ../install.config
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
+source $script_dir/application.config
 
 function install_config_source_local_bin ()
 {
@@ -7,6 +9,7 @@ function install_config_source_local_bin ()
 	server_ip=$(/sbin/ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 	tftp_folder=/var/lib/tftpboot
 	nfs_server=\$server_ip
+	binary_dir=$binary_dir
 EOF
 }
 

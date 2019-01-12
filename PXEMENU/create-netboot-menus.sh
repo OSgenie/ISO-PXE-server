@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Kirtley Wienbroer
 # kirtley@osgenie.com
-scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $scriptdir/pxe.config
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/pxe.config
 
 nfs_path=$nfs_server:/pxeboot
 nfs_root_path=$nfs_server:/pxeboot/stock
-seed_path=http://\$server_ip/preseed
+seed_path=http://$server_ip/preseed
 seed_file=uinstall
 
 function check_for_sudo ()

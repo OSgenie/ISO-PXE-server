@@ -1,27 +1,22 @@
 #!/usr/bin/env bash
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
 
-function check_for_sudo ()
-{
-	if [ $UID != 0 ]; then
-		echo "You need root privileges"
-		exit 2
-	fi
-}
-
-function install_packages ()
+function install_apt_cacher ()
 {
 	apt-get update
 	apt-get install -y apt-cacher-ng
 }
 
-function configure_conf ()
+function configure_apt_cacher ()
 {
+	service apt-cacher-ng stop
 	sed -i 's/# Remap-secdeb: security.debian.org/Remap-secdeb: security.debian.org/g' /etc/apt-cacher-ng/acng.conf
 	sed -i 's/# PidFile: \/var\/run\/apt-cacher-ng\/pid/PidFile: \/var\/run\/apt-cacher-ng\/pid/g' /etc/apt-cacher-ng/acng.conf
 	sed -i 's/.*# BindAddress: localhost 192.168.7.254 publicNameOnMainInterface.*/&\nBindAddress: 0.0.0.0/' /etc/apt-cacher-ng/acng.conf
+	service apt-cacher-ng start
 }
 
 check_for_sudo
-install_packages
-configure_conf
-service apt-cacher-ng restart
+install_apt_cacher
+configure_apt_cacher

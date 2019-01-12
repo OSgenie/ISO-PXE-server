@@ -1,6 +1,7 @@
 #!/bin/bash
-source install.config
-
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
+source application.config
 
 function initialize_crontab ()
 {
@@ -22,6 +23,7 @@ function install_PXEISO_scripts ()
   sh PXEISO/install.sh
 }
 
+check_for_sudo
 initialize_crontab
 install_PXEMENU_scripts
 install_PXEBOOT_scripts

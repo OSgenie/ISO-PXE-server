@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-source ../install.config
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
+source $script_dir/application.config
 
 function install_generate_update_lists ()
 {

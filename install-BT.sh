@@ -1,21 +1,7 @@
 #!/usr/bin/env bash
-source server.config
-
-function check_for_sudo ()
-{
-if [ $UID != 0 ]; then
-		echo "You need root privileges"
-		exit 2
-fi
-}
-
-function install_packages ()
-{
-apt-get install -y python-software-properties software-properties-common
-add-apt-repository -y ppa:transmissionbt/ppa
-apt-get update
-apt-get install -y transmission-daemon
-}
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
+source $script_dir/transmission.config
 
 function create_directories ()
 {
@@ -24,6 +10,14 @@ mkdir -p /var/transmission/incomplete
 mkdir -p /var/iso/stock
 chown debian-transmission:debian-transmission -R /var/transmission
 chown debian-transmission:debian-transmission -R /var/iso/stock
+}
+
+function install_transmission_daemon ()
+{
+apt-get install -y python-software-properties software-properties-common
+add-apt-repository -y ppa:transmissionbt/ppa
+apt-get update
+apt-get install -y transmission-daemon
 }
 
 function configure_transmission_daemon ()
@@ -55,6 +49,6 @@ sed -i "s/\"utp-enabled\": true/\"utp-enabled\": true,/g"  /etc/transmission-dae
 }
 
 check_for_sudo
-install_packages
 create_directories
+install_transmission_daemon
 configure_transmission_daemon

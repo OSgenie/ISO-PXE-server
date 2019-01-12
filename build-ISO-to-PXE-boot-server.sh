@@ -1,63 +1,20 @@
 #!/usr/bin/env bash
-scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $scriptdir/server.config
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $script_dir/common.functions
 
-function check_for_sudo ()
+function generate_config_files ()
 {
-if [ $UID != 0 ]; then
-		echo "You need root privileges"
-		exit 2
-fi
+	./generate-config-files.sh
 }
 
-function configure_network_interfaces ()
+function prepare_server ()
 {
-ifdown $primary_eth
-mv /etc/network/interfaces /etc/network/interfaces.orig
-chmod a-w /etc/network/interfaces.orig
-cat > /etc/network/interfaces << EOM
-# The loopback network interface
-auto lo
-iface lo inet loopback
-
-# System network interface on $primary_eth
-auto $primary_eth
-iface $primary_eth inet static
-       address $primary_eth_ip
-       network $primary_eth_subnet
-       netmask $primary_eth_netmask
-       broadcast $primary_eth_broadcast
-       gateway $primary_eth_gateway
-       dns-nameservers $nameserver_1 $nameserver_2
-EOM
-ifup $primary_eth
-}
-
-function network_configuration_decision ()
-{
-	clear
-	echo "*************************************************************************************************"
-	echo "Configure Network Interface? (yes/no)"
-	echo "*************************************************************************************************"
-	read configure_network
-	if [ "$configure_network" == "yes" ]; then
-    configure_network_interfaces
-	elif [ "$configure_network" == "no" ]; then
-    clear
-    echo "*************************************************************************************************"
-    echo "*** IMPORTANT NOTIFICATION "
-    echo "*** /etc/network/interfaces is not being configured, it will remain"
-		echo "*************************************************************************************************"
-	cat /etc/network/interfaces
-    echo "*************************************************************************************************"
-	else
-		network_configuration_decision
-	fi
+	./prepare-server.sh
 }
 
 function build_PXE_server ()
 {
-	./$scriptdir/install-APT-CACHER.sh
+	./$script_dir/install-APT-CACHER.sh
 	echo 'Acquire::http { Proxy "http:'$primary_eth_ip':3142"; };' | tee /etc/apt/apt.conf.d/01proxy
 	apt-get update
 	apt-get upgrade -y
@@ -99,14 +56,12 @@ function DHCP_server_installation_decision ()
 
 function install_scripts ()
 {
-	git clone https://github.com/OSgenie/PXE-scripts.git
-	./PXE-scripts/install.sh
+	./install-SCRIPTS.sh
 }
 
 function load_initial_iso_torrents ()
 {
 	get-torrents
-	/etc/init.d/transmission-daemon restart
 }
 
 function download_initial_iso ()
@@ -115,9 +70,12 @@ function download_initial_iso ()
 }
 
 check_for_sudo
-network_configuration_decision
+generate_config_files
+prepare_server
+
 build_PXE_server
 DHCP_server_installation_decision
 install_scripts
+
 load_initial_iso_torrents
 download_initial_iso
