@@ -1,6 +1,39 @@
 #!/bin/bash
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+function choose_ethernet_adapter ()
+{
+  readarray ethernet_adapters < /tmp/ethernet_adapter_list
+	echo "Choose the Primary Ethernet Adapter"
+  declare -i i
+    i=1
+  for ethernet_adapter in ${ethernet_adapters[*]}; do
+		echo "$i) $ethernet_adapter"
+    i=$((i+1))
+  done
+	read -p "Enter the number:" primary_eth
+}
+
+function identify_network_adapter ()
+{
+# Configure Ethernet Adapter
+if [ -e /etc/netplan/01-netcfg.yaml ]; then
+  cat /etc/netplan/01-netcfg.yaml | grep -A1 ethernets | cut -d: -f1 | awk '{getline; print $1}' > /tmp/ethernet_adapter_list
+  network_configuration_file=/etc/netplan/01-netcfg.yaml
+  choose_ethernet_adapter
+elif [ -e /etc/network/interfaces.d/50-cloud-init.cfg ]; then
+  cat /etc/network/interfaces.d/50-cloud-init.cfg | grep iface | cut -d" " -f2 | awk '{getline; print $1}' > /tmp/ethernet_adapter_list
+  network_configuration_file=/etc/network/interfaces.d/50-cloud-init.cfg
+  choose_ethernet_adapter
+elif [ -e /etc/network/interfaces ]; then
+  cat /etc/network/interfaces | grep iface | cut -d" " -f2 | awk '{getline; print $1}' > /tmp/ethernet_adapter_list
+  network_configuration_file=/etc/network/interfaces
+  choose_ethernet_adapter
+else
+  echo "Unable to identify Network Configuration"
+fi
+}
+
 function create_administrator_credentials_file ()
 {
 	echo "Time to Configure the System!!"
@@ -46,11 +79,12 @@ echo "domain.config file is located at $scriptdir/domain.config"
 
 function create_server_parameters_file ()
 {
+
 	cat > $script_dir/server.config << EOF
 #### System Configuration
 ### IP settings
 ## Primary Ethernet
-primary_eth=eth0
+primary_eth=$primary_eth
 primary_eth_ip=192.168.11.18
 primary_eth_subnet=192.168.11.0
 primary_eth_netmask=255.255.255.0
@@ -71,10 +105,13 @@ EOF
 
 function create_transmission_parameters_file ()
 {
+	echo "Transmission BitTorrent is used to download Operating System ISO files"
+	echo "The User Name to Access the Transmission Server is: transmission"
+	read -p "Please enter the password:" transmission_pass
 	cat > $script_dir/transmission.config << EOF
 ### Transmission BitTorrent Server
 ## Transmission Login Credentials
-transmission_pass=proceed
+transmission_pass=$transmission_pass
 ## Allowable client subnet restriction
 #IP_whitelist=10.*.*.*
 #IP_whitelist=172.*.*.* #semi-restricted
@@ -108,6 +145,7 @@ IP_subnet=192.168.0.0/16
 EOF
 }
 
+identify_network_adapter
 create_domain_configuation_file
 create_administrator_credentials_file
 create_server_parameters_file

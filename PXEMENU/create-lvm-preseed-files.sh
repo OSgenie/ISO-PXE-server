@@ -33,38 +33,47 @@ EOF
   d-i	netcfg/confirm_static	boolean true
   # This automatically creates a standard unencrypted partitioning scheme with seperate var.
   d-i partman-auto/disk string /dev/sda
-  d-i partman-auto/method string regular
+  d-i partman-auto/method string lvm
   d-i partman-lvm/confirm boolean true
   d-i partman-lvm/device_remove_lvm boolean true
   d-i partman-md/device_remove_md boolean true
   d-i partman-auto/expert_recipe string \\
-  regular_btrfs :: \\
+  var_scheme :: \\
   1 1 1 free \\
   	\$iflabel{ gpt } \\
   	\$reusemethod{ } \\
   	method{ biosgrub } \\
     . \\
-  128 512 256 ext4 \\
-    \$primary{ } \\
-    \$bootable{ } \\
-    method{ format } \\
-    format{ } \\
-    use_filesystem{ } \\
-    filesystem{ ext4 } \\
-    mountpoint{ /boot } \\
-    . \\
-  2000 3500 10000 btrfs \\
+  128 512 256 ext2 \\
+  	\$defaultignore{ } \\
   	method{ format } \\
   	format{ } \\
   	use_filesystem{ } \\
-  	filesystem{ btrfs } \\
+  	filesystem{ ext2 } \\
+  	mountpoint{ /boot } \\
+    . \\
+  2000 3500 10000 \$default_filesystem \\
+  	\$lvmok{ } \\
+  	method{ format } \\
+  	format{ } \\
+  	use_filesystem{ } \\
+  	\$default_filesystem{ } \\
   	mountpoint{ / } \\
     . \\
   100% 512 200% linux-swap \\
+  	\$lvmok{ } \\
+  	\$reusemethod{ } \\
   	method{ swap } \\
   	format{ } \\
+    . \\
+  1000 1500 -1 \$default_filesystem \\
+  	\$lvmok{ } \\
+  	method{ format } \\
+  	format{ } \\
+  	use_filesystem{ } \\
+  	\$default_filesystem{ } \\
+  	mountpoint{ /var } \\
     .
-  d-i partman-auto/choose_recipe select regular_btrfs
   d-i partman/default_filesystem string btrfs
   d-i partman-partitioning/confirm_write_new_label boolean true
   d-i partman/choose_partition select finish
@@ -111,5 +120,6 @@ EOF
   d-i	debian-installer/exit/halt	boolean false
   d-i	debian-installer/exit/poweroff	boolean false
   # Post System Installation Tasks
-  d-i	pkgsel/include string vim openssh-server git-core landscape-common nfs-common
+  d-i	pkgsel/include string byobu vim openssh-server git-core landscape-common nfs-common
+  byobu	byobu/launch-by-default boolean true
 EOF

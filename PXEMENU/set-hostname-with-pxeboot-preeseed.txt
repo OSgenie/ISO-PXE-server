@@ -1,0 +1,5 @@
+d-i pressed/late_command string\
+    in-target /bin/bash -c 'echo desired_name > /etc/hostname'
+
+
+hostname=myhostname domain=mydomain
